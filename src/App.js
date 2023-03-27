@@ -6,13 +6,21 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
 import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Area, Bar, Line, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
 
-import { useContext } from 'react';
 import { useStateContext } from './contexts/ContextProvider';
 
 import './App.css';
 
 function App() {
-    const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
+    const {setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
+
+    useEffect(() => {
+        const currentThemeColor = localStorage.getItem('colorMode');
+        const currentThemeMode = localStorage.getItem('themeMode');
+        if (currentThemeColor && currentThemeMode) {
+          setCurrentColor(currentThemeColor);
+          setCurrentMode(currentThemeMode);
+        }
+      }, []);
 
     return (
         <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -82,6 +90,7 @@ function App() {
 
                             </Routes>
                         </div>
+                        <Footer />
                     </div>
                 </div>
             </BrowserRouter>
